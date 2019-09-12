@@ -3,6 +3,12 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp2.1</TargetFramework>
+        <Authors>Tom Jerzak</Authors>
+        <Description>Example of use feature flags.</Description>
+        <PackageProjectUrl>https://github.com/TomJerzak/feature-flag</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/TomJerzak/feature-flag/blob/master/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/TomJerzak/feature-flag</RepositoryUrl>
+        <PackageTags>.net core, feature toggle</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
