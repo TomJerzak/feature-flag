@@ -28,7 +28,7 @@ dotnet add package FeatureFlag --version 1.0.0
 paket add FeatureFlag --version 1.0.0
 ```
 
-## Simple example of using the library
+## Simple example of using the library ([FeatureFlag.Example](https://github.com/TomJerzak/feature-flag/tree/master/samples/FeatureFlag.Example))
 
 * Creating a class `HelloWorldFeature`.
 
