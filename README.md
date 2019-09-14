@@ -7,26 +7,31 @@ Simple feature flag (feature toggle) in .NET and .NET Core.
 * Package Manager
 
 ```bash
-Install-Package FeatureFlag -Version 1.0.0
+Install-Package FeatureFlag -Version 1.2.0
 ```
 
 * .NET CLI
 
 ```bash
-dotnet add package FeatureFlag --version 1.0.0
+dotnet add package FeatureFlag --version 1.2.0
 ```
 
 * PackageReference
 
 ```xml
-<PackageReference Include="FeatureFlag" Version="1.0.0" />
+<PackageReference Include="FeatureFlag" Version="1.2.0" />
 ```
 
 * Paket CLI
 
 ```bash
-paket add FeatureFlag --version 1.0.0
+paket add FeatureFlag --version 1.2.0
 ```
+
+## Available feature flags
+
+* SimpleFeatureFlag
+* ExpirationFeatureFlag
 
 ## Simple example of using the library ([FeatureFlag.Example](https://github.com/TomJerzak/feature-flag/tree/master/samples/FeatureFlag.Example))
 
