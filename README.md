@@ -102,7 +102,7 @@ public class CalendarFeature : SimpleFeatureFlag
 * Creating a class `FeatureFlagWrapper` and initialization of objects with default values: `HelloWorldFeature`, `CalendarFeature`.
 
 ```c#
-ppublic static class FeatureFlagWrapper
+public static class FeatureFlagWrapper
 {
     public static readonly HelloWorldFeature HelloWorldFeature = new HelloWorldFeature(false);
     public static readonly CalendarFeature CalendarFeature = new CalendarFeature(false);
@@ -138,12 +138,10 @@ public void ConfigureServices(IServiceCollection services)
 
 ```json
 {
-  ...,
   "FeatureFlag": {
     "CalendarFeature": true,
     "HelloWorldFeature": true
-  },
-  ...
+  }
 }
 ```
 
