@@ -104,6 +104,17 @@ public class CalendarFeature : SimpleFeatureFlag
 }
 ```
 
+* Creating a class `ExpirationHelloWorldFeature`.
+
+```c#
+public class ExpirationHelloWorldFeature : ExpirationFeatureFlag
+{
+    public ExpirationHelloWorldFeature(DateTime expirationDate) : base(expirationDate)
+    {
+    }
+}
+```
+
 * Creating a class `FeatureFlagWrapper` and initialization of objects with default values: `HelloWorldFeature`, `CalendarFeature`.
 
 ```c#
@@ -111,11 +122,13 @@ public static class FeatureFlagWrapper
 {
     public static readonly HelloWorldFeature HelloWorldFeature = new HelloWorldFeature(false);
     public static readonly CalendarFeature CalendarFeature = new CalendarFeature(false);
+    public static readonly ExpirationFeatureFlag ExpirationHelloWorldFeature = new ExpirationHelloWorldFeature(DateTime.Now);
 
     public static void LoadFeatureFlags(IConfiguration configuration, string featureFlagSectionName)
     {
         HelloWorldFeature.SetFeatureEnabled(configuration.GetSection($"{featureFlagSectionName}:{nameof(HelloWorldFeature)}"));
         CalendarFeature.SetFeatureEnabled(configuration.GetSection($"{featureFlagSectionName}:{nameof(CalendarFeature)}"));
+        ExpirationHelloWorldFeature.SetFeatureEnabled(configuration.GetSection($"{featureFlagSectionName}:{nameof(ExpirationHelloWorldFeature)}"));
     }
 }
 ```
@@ -145,7 +158,8 @@ public void ConfigureServices(IServiceCollection services)
 {
   "FeatureFlag": {
     "CalendarFeature": true,
-    "HelloWorldFeature": true
+    "HelloWorldFeature": true,
+    "ExpirationHelloWorldFeature": "9999-12-31"
   }
 }
 ```
@@ -176,6 +190,11 @@ public IActionResult Index()
     {
         var today = $"{DateTime.Now.Year:0000}-{DateTime.Now.Month:00}-{DateTime.Now.Day:00}";
         <h3>@today</h3>
+    }
+
+    @if (FeatureFlagWrapper.ExpirationHelloWorldFeature.FeatureEnabled)
+    {
+        <h3>Expiration Hello World!</h3>
     }
 }
 ```
