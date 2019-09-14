@@ -3,13 +3,13 @@ using Xunit;
 
 namespace FeatureFlag.Tests
 {
-    public partial class SimpleFeatureFlagTests
+    public class SimpleFeatureFlagTests
     {
         [Fact]
         public void feature_should_be_enabled()
         {
             const bool featureEnabled = true;
-            SimpleFeatureFlag simpleFeatureFlag = new TestFeature(featureEnabled);
+            SimpleFeatureFlag simpleFeatureFlag = new TestSimpleFeature(featureEnabled);
 
             simpleFeatureFlag.FeatureEnabled.Should().BeTrue();
         }
@@ -18,7 +18,7 @@ namespace FeatureFlag.Tests
         public void feature_should_be_disabled()
         {
             const bool featureEnabled = false;
-            SimpleFeatureFlag simpleFeatureFlag = new TestFeature(featureEnabled);
+            SimpleFeatureFlag simpleFeatureFlag = new TestSimpleFeature(featureEnabled);
 
             simpleFeatureFlag.FeatureEnabled.Should().BeFalse();
         }
