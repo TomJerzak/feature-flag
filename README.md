@@ -74,3 +74,105 @@ Result:
 ```bash
 2019-09-12
 ```
+
+## Web example of using the library with appsettings ([FeatureFlag.Web](https://github.com/TomJerzak/feature-flag/tree/master/samples/FeatureFlag.Web))
+
+* Creating a class `HelloWorldFeature`.
+
+```c#
+public class HelloWorldFeature : SimpleFeatureFlag
+{
+    public HelloWorldFeature(bool featureEnabled) : base(featureEnabled)
+    {
+    }
+}
+```
+
+* Creating a class `CalendarFeature`.
+
+```c#
+public class CalendarFeature : SimpleFeatureFlag
+{
+    public CalendarFeature(bool featureEnabled) : base(featureEnabled)
+    {
+    }
+}
+```
+
+* Creating a class `FeatureFlagWrapper` and initialization of objects with default values: `HelloWorldFeature`, `CalendarFeature`.
+
+```c#
+ppublic static class FeatureFlagWrapper
+{
+    public static readonly HelloWorldFeature HelloWorldFeature = new HelloWorldFeature(false);
+    public static readonly CalendarFeature CalendarFeature = new CalendarFeature(false);
+
+    public static void LoadFeatureFlags(IConfiguration configuration, string featureFlagSectionName)
+    {
+        HelloWorldFeature.SetFeatureEnabled(configuration.GetSection($"{featureFlagSectionName}:{nameof(HelloWorldFeature)}"));
+        CalendarFeature.SetFeatureEnabled(configuration.GetSection($"{featureFlagSectionName}:{nameof(CalendarFeature)}"));
+    }
+}
+```
+
+* Creating a class `SettingsSections`
+
+```c#
+public static class SettingsSections
+{
+    public const string FeatureFlag = "FeatureFlag";
+}
+```
+
+* Load feature flags.
+
+```c#
+public void ConfigureServices(IServiceCollection services)
+{
+    FeatureFlagWrapper.LoadFeatureFlags(Configuration, SettingsSections.FeatureFlag);
+    ...
+}
+```
+
+* Configuring `appsettings.Development.json`
+
+```json
+{
+  ...,
+  "FeatureFlag": {
+    "CalendarFeature": true,
+    "HelloWorldFeature": true
+  },
+  ...
+}
+```
+
+* Examples of use feature flags.
+
+```c#
+// Example of use feature flag in Controller
+public IActionResult Index()
+{
+    if(FeatureFlagWrapper.HelloWorldFeature.FeatureEnabled)
+        Console.WriteLine("Hello World!");
+
+    return View();
+}
+```
+
+```html
+<!-- Example of use feature flags in View (Razor) -->
+public IActionResult Index()
+{
+    @if (FeatureFlagWrapper.HelloWorldFeature.FeatureEnabled)
+    {
+        <h3>Hello World!</h3>
+    }
+
+    @if (FeatureFlagWrapper.CalendarFeature.FeatureEnabled)
+    {
+        var today = $"{DateTime.Now.Year:0000}-{DateTime.Now.Month:00}-{DateTime.Now.Day:00}";
+        <h3>@today</h3>
+    }
+}
+```

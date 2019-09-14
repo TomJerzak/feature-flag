@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using FeatureFlag.Web.FeatureFlags;
 using Microsoft.AspNetCore.Mvc;
 using FeatureFlag.Web.Models;
 
@@ -12,6 +13,9 @@ namespace FeatureFlag.Web.Controllers
     {
         public IActionResult Index()
         {
+            if(FeatureFlagWrapper.HelloWorldFeature.FeatureEnabled)
+                Console.WriteLine("Hello World!");
+
             return View();
         }
 
