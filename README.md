@@ -33,7 +33,7 @@ paket add FeatureFlag --version 1.2.0
 * SimpleFeatureFlag
 * ExpirationFeatureFlag
 
-## Simple example of using the library ([FeatureFlag.Example](https://github.com/TomJerzak/feature-flag/tree/master/samples/FeatureFlag.Example))
+## Simple example of usage ([FeatureFlag.Example](https://github.com/TomJerzak/feature-flag/tree/master/samples/FeatureFlag.Example))
 
 * Creating a class `HelloWorldFeature`.
 
@@ -64,7 +64,7 @@ var helloWorldFeature = new HelloWorldFeature(false);
 var calendarFeature = new CalendarFeature(true);
 ```
 
-* Example of use feature flags.
+* Usage example of the feature flags.
 
 ```c#
 if(helloWorldFeature.FeatureEnabled)
@@ -80,7 +80,7 @@ Result:
 2019-09-12
 ```
 
-## Web example of using the library with appsettings ([FeatureFlag.Web](https://github.com/TomJerzak/feature-flag/tree/master/samples/FeatureFlag.Web))
+## Web example of usage with appsettings ([FeatureFlag.Web](https://github.com/TomJerzak/feature-flag/tree/master/samples/FeatureFlag.Web))
 
 * Creating a class `HelloWorldFeature`.
 
@@ -115,6 +115,27 @@ public class ExpirationHelloWorldFeature : ExpirationFeatureFlag
 }
 ```
 
+* Configuring `appsettings.Development.json`
+
+```json
+{
+  "FeatureFlag": {
+    "CalendarFeature": true,
+    "HelloWorldFeature": true,
+    "ExpirationHelloWorldFeature": "9999-12-31"
+  }
+}
+```
+
+* Creating a class `SettingsSections`
+
+```c#
+public static class SettingsSections
+{
+    public const string FeatureFlag = "FeatureFlag";
+}
+```
+
 * Creating a class `FeatureFlagWrapper` and initialization of objects with default values: `HelloWorldFeature`, `CalendarFeature`.
 
 ```c#
@@ -133,16 +154,7 @@ public static class FeatureFlagWrapper
 }
 ```
 
-* Creating a class `SettingsSections`
-
-```c#
-public static class SettingsSections
-{
-    public const string FeatureFlag = "FeatureFlag";
-}
-```
-
-* Load feature flags.
+* Load feature flags from `Startup.cs`.
 
 ```c#
 public void ConfigureServices(IServiceCollection services)
@@ -152,22 +164,10 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-* Configuring `appsettings.Development.json`
-
-```json
-{
-  "FeatureFlag": {
-    "CalendarFeature": true,
-    "HelloWorldFeature": true,
-    "ExpirationHelloWorldFeature": "9999-12-31"
-  }
-}
-```
-
-* Examples of use feature flags.
+* Usage examples of the feature flags.
 
 ```c#
-// Example of use feature flag in Controller
+// Usage example of the feature flag in Controller
 public IActionResult Index()
 {
     if(FeatureFlagWrapper.HelloWorldFeature.FeatureEnabled)
@@ -178,23 +178,25 @@ public IActionResult Index()
 ```
 
 ```html
-<!-- Example of use feature flags in View (Razor) -->
-public IActionResult Index()
+<!-- Usage example of the feature flag in View (Razor) -->
+@using FeatureFlag.Web.FeatureFlags
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (FeatureFlagWrapper.HelloWorldFeature.FeatureEnabled)
 {
-    @if (FeatureFlagWrapper.HelloWorldFeature.FeatureEnabled)
-    {
-        <h3>Hello World!</h3>
-    }
+    <h3>Hello World!</h3>
+}
 
-    @if (FeatureFlagWrapper.CalendarFeature.FeatureEnabled)
-    {
-        var today = $"{DateTime.Now.Year:0000}-{DateTime.Now.Month:00}-{DateTime.Now.Day:00}";
-        <h3>@today</h3>
-    }
+@if (FeatureFlagWrapper.CalendarFeature.FeatureEnabled)
+{
+    var today = $"{DateTime.Now.Year:0000}-{DateTime.Now.Month:00}-{DateTime.Now.Day:00}";
+    <h3>@today</h3>
+}
 
-    @if (FeatureFlagWrapper.ExpirationHelloWorldFeature.FeatureEnabled)
-    {
-        <h3>Expiration Hello World!</h3>
-    }
+@if (FeatureFlagWrapper.ExpirationHelloWorldFeature.FeatureEnabled)
+{
+    <h3>Expiration Hello World!</h3>
 }
 ```
